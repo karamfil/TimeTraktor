@@ -22,4 +22,8 @@ CREATE TABLE `timetracking` (
 `pip install flask`
 
 # Run
-`python track-time.py`
+## Traktor
+`python traktor.py`
+
+## Viewer
+`python viewer.py`
