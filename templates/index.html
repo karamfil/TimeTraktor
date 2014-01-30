@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>TimeTraktor</title>
+	
+	<style type="text/css">
+		body { font-size: 11px;}
+		th { text-align: left; }
+	</style>
+</head>
+<body>
+
+
+<h1>TimeTraktor: {{name}}</h1>
+
+<div style="float: left; width: 27%; margin-right: 3%;">
+	<h2>Top Today</h2>
+	<table width="100%">
+		<tr>
+			<th>Place</th>
+			<th>Program</th>
+			<th>Time (m)</th>
+			<th>Switches</th>
+		</tr>
+		{% for i in top_today %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td>{{i.window_class}}</td>
+				<td>{{i.time}}</td>
+				<td>{{i.switches}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<div style="float: left; width: 68%; margin-left: 2%;">
+	<h2>Top Name Today</h2>
+	<table width="100%">
+		<tr>
+			<th>Place</th>
+			<th>Program</th>
+			<th>Name</th>
+			<th>Time (m)</th>
+			<th>Switches</th>
+		</tr>
+		{% for i in top_name_today %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td>{{i.window_class}}</td>
+				<td>{{i.window_title}}</td>
+				<td>{{i.time}}</td>
+				<td>{{i.switches}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<div style="float: left; width: 27%; margin-right: 3%;">
+	<h2>Top Week</h2>
+	<table width="100%">
+		<tr>
+			<th>Place</th>
+			<th>Program</th>
+			<th>Time (m)</th>
+			<th>Switches</th>
+		</tr>
+		{% for i in top_week %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td>{{i.window_class}}</td>
+				<td>{{i.time}}</td>
+				<td>{{i.switches}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<div style="float: left; width: 68%; margin-left: 2%;">
+	<h2>Top Name Week</h2>
+	<table width="100%">
+		<tr>
+			<th>Place</th>
+			<th>Program</th>
+			<th>Name</th>
+			<th>Time (m)</th>
+			<th>Switches</th>
+		</tr>
+		{% for i in top_name_week %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td>{{i.window_class}}</td>
+				<td>{{i.window_title}}</td>
+				<td>{{i.time}}</td>
+				<td>{{i.switches}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<div style="float: left; width: 27%; margin-right: 3%;">
+	<h2>Top All Time</h2>
+	<table width="100%">
+		<tr>
+			<th>Place</th>
+			<th>Program</th>
+			<th>Time (m)</th>
+			<th>Switches</th>
+		</tr>
+		{% for i in top %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td>{{i.window_class}}</td>
+				<td>{{i.time}}</td>
+				<td>{{i.switches}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+
+<div style="float: left; width: 68%; margin-left: 2%;">
+	<h2>Top Name All Time</h2>
+	<table width="100%">
+		<tr>
+			<th>Place</th>
+			<th>Program</th>
+			<th>Name</th>
+			<th>Time (m)</th>
+			<th>Switches</th>
+		</tr>
+		{% for i in top_name %}
+			<tr>
+				<td>{{loop.index}}</td>
+				<td>{{i.window_class}}</td>
+				<td>{{i.window_title}}</td>
+				<td>{{i.time}}</td>
+				<td>{{i.switches}}</td>
+			</tr>
+		{% endfor %}
+	</table>
+</div>
+
+</body>
+</html>

@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 
-import commands, MySQLdb, re
+import commands, re, MySQLdb
 from time import sleep
+from engine import Engine
 
 USER = 'karamfil'
-
-def db_connect():
-	db = MySQLdb.connect(host = 'nakor',  user = 'sites', passwd = 'M0reFun', db = 'test')
-	
-	return db, db.cursor()
 
 def is_idle():
 	cmd = commands.getoutput('gnome-screensaver-command -q').split('\n')[0].split(' ')[-1]
@@ -26,7 +22,7 @@ def get_window_class():
 	
 	return cmd
 
-db, c = db_connect()
+db = Engine()
 
 modified = re.compile(r'\*(\])$')
 def get_window_title():
@@ -40,33 +36,32 @@ time = 0
 last_window_class = get_window_class()
 last_window_title = get_window_title()
 
-print
-while True:
-	sleep(1);
-	
-	if(is_idle()): continue
-	
-	window_class = get_window_class()
-	window_title = get_window_title()
-	
-	try:
-		if window_class != last_window_class or window_title != last_window_title:
-			if time > 4:
-				print str(time).ljust(6), last_window_class.ljust(30), last_window_title
+if __name__ == '__main__':
+	print
+	while True:
+		sleep(1);
+		
+		if(is_idle()): continue
+		
+		window_class = get_window_class()
+		window_title = get_window_title()
+		
+		try:
+			if window_class != last_window_class or window_title != last_window_title:
+				if time > 1:
+					print str(time).ljust(6), last_window_class.ljust(30), last_window_title
+					
+					db.time_add(USER, window_class, window_title, time)
 				
-				c.execute('INSERT INTO timetracking (username, window_class, window_title, time) VALUES (%s, %s, %s, %s)', (USER, window_class, window_title, time))
-				# print c._last_executed
-				db.commit()
+				time = 0
 			
-			time = 0
-		
-		time += 1
-		
-		last_window_class = window_class
-		last_window_title = window_title
-		
-	except MySQLdb.OperationalError:
-		db, c = db_connect()
+			time += 1
+			
+			last_window_class = window_class
+			last_window_title = window_title
+			
+		except MySQLdb.OperationalError:
+			db.connect()
 
 print
 print

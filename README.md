@@ -18,5 +18,8 @@ CREATE TABLE `timetracking` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
 ```
 
+## Flask
+`pip install flask`
+
 # Run
 `python track-time.py`
