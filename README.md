@@ -1,4 +1,4 @@
-Time-Traker
+TimeTraktor
 ===========
 
 Tracking my time in MySQL

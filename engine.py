@@ -15,7 +15,7 @@ class Engine:
 	
 	def select(self, query, *args):
 		self.cur.execute(query, args)
-		print self.cur._last_executed
+		# print self.cur._last_executed
 		
 		return self.cur.fetchall()
 	
@@ -61,7 +61,7 @@ class Engine:
 			ORDER BY time DESC
 			LIMIT 10''', start, end)
 	
-	def get_top_name_all_time(self, username):
+	def get_top_title_all_time(self, username):
 		return self.select('''SELECT window_class, window_title, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
 			FROM timetracking
 			WHERE username = username
@@ -69,7 +69,7 @@ class Engine:
 			ORDER BY time DESC
 			LIMIT 10''')
 	
-	def get_top_name_week(self, username):
+	def get_top_title_week(self, username):
 		t = date.today()
 		w = t.isoweekday()
 		
@@ -83,7 +83,7 @@ class Engine:
 			ORDER BY time DESC
 			LIMIT 10''', start, end)
 	
-	def get_top_name_today(self, username):
+	def get_top_title_today(self, username):
 		t = date.today()
 		
 		start = datetime(t.year, t.month, t.day).strftime('%F %T')

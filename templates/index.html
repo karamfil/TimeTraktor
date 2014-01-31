@@ -13,11 +13,11 @@
 
 <h1>TimeTraktor: {{name}}</h1>
 
-<div style="float: left; width: 27%; margin-right: 3%;">
+<div style="float: left; width: 27%; margin-right: 3%; clear: both;">
 	<h2>Top Today</h2>
 	<table width="100%">
 		<tr>
-			<th>Place</th>
+			<th></th>
 			<th>Program</th>
 			<th>Time (m)</th>
 			<th>Switches</th>
@@ -34,16 +34,16 @@
 </div>
 
 <div style="float: left; width: 68%; margin-left: 2%;">
-	<h2>Top Name Today</h2>
+	<h2>Top Title Today</h2>
 	<table width="100%">
 		<tr>
-			<th>Place</th>
+			<th></th>
 			<th>Program</th>
-			<th>Name</th>
+			<th>Title</th>
 			<th>Time (m)</th>
 			<th>Switches</th>
 		</tr>
-		{% for i in top_name_today %}
+		{% for i in top_title_today %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
@@ -55,11 +55,11 @@
 	</table>
 </div>
 
-<div style="float: left; width: 27%; margin-right: 3%;">
+<div style="float: left; width: 27%; margin-right: 3%; clear: both;">
 	<h2>Top Week</h2>
 	<table width="100%">
 		<tr>
-			<th>Place</th>
+			<th></th>
 			<th>Program</th>
 			<th>Time (m)</th>
 			<th>Switches</th>
@@ -76,16 +76,16 @@
 </div>
 
 <div style="float: left; width: 68%; margin-left: 2%;">
-	<h2>Top Name Week</h2>
+	<h2>Top Title Week</h2>
 	<table width="100%">
 		<tr>
-			<th>Place</th>
+			<th></th>
 			<th>Program</th>
-			<th>Name</th>
+			<th>Title</th>
 			<th>Time (m)</th>
 			<th>Switches</th>
 		</tr>
-		{% for i in top_name_week %}
+		{% for i in top_title_week %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
@@ -97,11 +97,11 @@
 	</table>
 </div>
 
-<div style="float: left; width: 27%; margin-right: 3%;">
+<div style="float: left; width: 27%; margin-right: 3%; clear: both;">
 	<h2>Top All Time</h2>
 	<table width="100%">
 		<tr>
-			<th>Place</th>
+			<th></th>
 			<th>Program</th>
 			<th>Time (m)</th>
 			<th>Switches</th>
@@ -118,16 +118,16 @@
 </div>
 
 <div style="float: left; width: 68%; margin-left: 2%;">
-	<h2>Top Name All Time</h2>
+	<h2>Top Title All Time</h2>
 	<table width="100%">
 		<tr>
-			<th>Place</th>
+			<th></th>
 			<th>Program</th>
-			<th>Name</th>
+			<th>Title</th>
 			<th>Time (m)</th>
 			<th>Switches</th>
 		</tr>
-		{% for i in top_name %}
+		{% for i in top_title %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
