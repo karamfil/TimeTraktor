@@ -51,7 +51,7 @@ if __name__ == '__main__':
 				if time > 1:
 					print str(time).ljust(6), last_window_class.ljust(30), last_window_title
 					
-					db.time_add(USER, window_class, window_title, time)
+					db.time_add(USER, last_window_class, last_window_title, time)
 				
 				time = 0
 			
@@ -60,7 +60,8 @@ if __name__ == '__main__':
 			last_window_class = window_class
 			last_window_title = window_title
 			
-		except MySQLdb.OperationalError:
+		except MySQLdb.OperationalError, e:
+			print e
 			db.connect()
 
 print

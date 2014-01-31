@@ -2,13 +2,14 @@ from flask import Flask, render_template
 from engine import Engine
 
 app	= Flask(__name__)
-db	= Engine()
 
 USER = 'karamfil'
 
 
 @app.route('/')
 def index():
+	db	= Engine()
+	
 	return render_template('index.html', **{
 		'name'				: USER,
 		'top'				: db.get_top_all_time(USER),
