@@ -43,10 +43,10 @@ if __name__ == '__main__':
 		
 		if(is_idle()): continue
 		
-		window_class = get_window_class()
-		window_title = get_window_title()
-		
 		try:
+			window_class = get_window_class()
+			window_title = get_window_title()
+			
 			if window_class != last_window_class or window_title != last_window_title:
 				if time > 1:
 					print str(time).ljust(6), last_window_class.ljust(30), last_window_title
@@ -63,6 +63,8 @@ if __name__ == '__main__':
 		except MySQLdb.OperationalError, e:
 			print e
 			db.connect()
+		except Exception, e:
+			print e
 
 print
 print

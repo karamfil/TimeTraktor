@@ -24,75 +24,60 @@ class Engine:
 		# print self.cur._last_executed
 		self.db.commit()
 	
-	
-	
-	def get_top_all_time(self, username):
-		return self.select('''SELECT window_class, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
-			FROM timetracking
-			WHERE username = username
-			GROUP BY username, window_class
-			ORDER BY time DESC
-			LIMIT 10''')
-	
-	def get_top_week(self, username):
-		t = date.today()
-		w = t.isoweekday()
+	def _filter_today(self):
+		t		= date.today()
+		start	= datetime(t.year, t.month, t.day)
+		end		= datetime(t.year, t.month, t.day, 23, 59, 59)
 		
-		start = (datetime(t.year, t.month, t.day) - timedelta(days = w)).strftime('%F %T')
-		end = (datetime(t.year, t.month, t.day, 23, 59, 59) + timedelta(days = 7-w)).strftime('%F %T')
-		
-		return self.select('''SELECT window_class, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
-			FROM timetracking
-			WHERE username = username AND `date` BETWEEN %s AND %s
-			GROUP BY username, window_class
-			ORDER BY time DESC
-			LIMIT 10''', start, end)
+		return start.strftime('%F %T'), end.strftime('%F %T')
 	
-	def get_top_today(self, username):
-		t = date.today()
+	def _filter_week(self):
+		t, w	= date.today(), t.isoweekday()
+		start	= (datetime(t.year, t.month, t.day) - timedelta(days = w))
+		end		= (datetime(t.year, t.month, t.day, 23, 59, 59) + timedelta(days = 7-w))
 		
-		start = datetime(t.year, t.month, t.day).strftime('%F %T')
-		end = datetime(t.year, t.month, t.day, 23, 59, 59).strftime('%F %T')
+		return start.strftime('%F %T'), end.strftime('%F %T')
+	
+	def query_top(self, *params):
+		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
 		return self.select('''SELECT window_class, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
 			FROM timetracking
-			WHERE username = username AND `date` BETWEEN %s AND %s
+			WHERE username = username {0}
 			GROUP BY username, window_class
 			ORDER BY time DESC
-			LIMIT 10''', start, end)
+			LIMIT 10'''.format(where), *params)
 	
-	def get_top_title_all_time(self, username):
-		return self.select('''SELECT window_class, window_title, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
-			FROM timetracking
-			WHERE username = username
-			GROUP BY username, window_class, window_title
-			ORDER BY time DESC
-			LIMIT 10''')
+	def get_top_all_time(self, username):	return self.query_top()
+	def get_top_week(self, username):		return self.query_top(*self._filter_week())
+	def get_top_today(self, username):		return self.query_top(*self._filter_today())
 	
-	def get_top_title_week(self, username):
-		t = date.today()
-		w = t.isoweekday()
-		
-		start = (datetime(t.year, t.month, t.day) - timedelta(days = w)).strftime('%F %T')
-		end = (datetime(t.year, t.month, t.day, 23, 59, 59) + timedelta(days = 7-w)).strftime('%F %T')
+	
+	def query_top_title(self, *params):
+		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
 		return self.select('''SELECT window_class, window_title, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
 			FROM timetracking
-			WHERE username = username AND `date` BETWEEN %s AND %s
+			WHERE username = username {0}
 			GROUP BY username, window_class, window_title
 			ORDER BY time DESC
-			LIMIT 10''', start, end)
+			LIMIT 10'''.format(where), *params)
 	
-	def get_top_title_today(self, username):
-		t = date.today()
-		
-		start = datetime(t.year, t.month, t.day).strftime('%F %T')
-		end = datetime(t.year, t.month, t.day, 23, 59, 59).strftime('%F %T')
-		
-		return self.select('''SELECT window_class, window_title, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
-			FROM timetracking
-			WHERE username = username AND `date` BETWEEN %s AND %s
-			GROUP BY username, window_class, window_title
-			ORDER BY time DESC
-			LIMIT 10''', start, end)
+	def get_top_title_all_time(self, username):	return self.query_top_title()
+	def get_top_title_week(self, username):		return self.query_top_title(*self._filter_week())
+	def get_top_title_today(self, username):	return self.query_top_title(*self._filter_today())
 	
+	# def get_stats_
+	
+	# def get_stats_today(self):
+	# 	self.select('''SELECT window_class, window_title, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
+	# 		FROM timetracking
+	# 		WHERE username = username AND `date` BETWEEN %s AND %s
+	# 		GROUP BY username, window_class, window_title
+	# 		ORDER BY time DESC
+	# 		LIMIT 10''', start, end)
+		
+	# 	return {
+	# 		'time'		: ,
+	# 		'switches'	: ,
+	# 	}
