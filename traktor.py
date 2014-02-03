@@ -1,36 +1,60 @@
 # -*- coding: utf-8 -*-
 
-import commands, re, MySQLdb
+import subprocess, re, MySQLdb
 from time import sleep
 from engine import Engine
 
 USER = 'karamfil'
 
 def is_idle():
-	cmd = commands.getoutput('gnome-screensaver-command -q').split('\n')[0].split(' ')[-1]
+	cmd = None
+	
+	try:
+		cmd = subprocess.check_output(['gnome-screensaver-command', '-q']).strip().split('\n')[0].split(' ')[-1]
+	except subprocess.CalledProcessError, e:
+		print e
 	
 	return cmd == 'active'
 
-def get_window_class():
-	cmd = commands.getoutput("xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5)  WM_CLASS")
+def get_window_id():
+	wid = None
 	
 	try:
-		cmd = cmd[20:].split('", "')[1].strip('"')
-	except:
-		print cmd
-		exit()
+		wid = subprocess.check_output(['xprop', '-root', '_NET_ACTIVE_WINDOW']).strip().split()[-1]
+	except subprocess.CalledProcessError, e:
+		print e
 	
-	return cmd
+	return wid
+
+def get_window_class():
+	wclass = None
+	
+	try:
+		wclass = subprocess.check_output(['xprop', '-id', get_window_id(), 'WM_CLASS']).strip()
+		
+		try:
+			wclass = wclass[20:].split('", "')[1].strip('"')
+		except:
+			print wclass
+	except subprocess.CalledProcessError, e:
+		print e
+	
+	return wclass
 
 db = Engine()
 
 modified = re.compile(r'\*(\])$')
 def get_window_title():
-	cmd = commands.getoutput("xprop -id $(xprop -root _NET_ACTIVE_WINDOW | cut -d ' ' -f 5)  WM_NAME")
-	cmd = cmd.replace('WM_NAME(STRING) = ', '').replace('WM_NAME(COMPOUND_TEXT) = ', '').strip('"').replace(' • ', ' ')
-	cmd = modified.sub(r'\1', cmd)
+	wtitle = None
 	
-	return cmd
+	try:
+		wtitle = subprocess.check_output(['xprop', '-id', get_window_id(), 'WM_NAME']).strip()
+		wtitle = wtitle.replace('WM_NAME(STRING) = ', '').replace('WM_NAME(COMPOUND_TEXT) = ', '').strip('"').replace(' • ', ' ')
+		wtitle = modified.sub(r'\1', wtitle)
+	except subprocess.CalledProcessError, e:
+		print e
+	
+	return wtitle
 
 time = 0
 last_window_class = get_window_class()
@@ -59,7 +83,6 @@ if __name__ == '__main__':
 			
 			last_window_class = window_class
 			last_window_title = window_title
-			
 		except MySQLdb.OperationalError, e:
 			print e
 			db.connect()
