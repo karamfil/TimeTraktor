@@ -32,7 +32,8 @@ class Engine:
 		return start.strftime('%F %T'), end.strftime('%F %T')
 	
 	def _filter_week(self):
-		t, w	= date.today(), t.isoweekday()
+		t		= date.today()
+		w		= t.isoweekday()
 		start	= (datetime(t.year, t.month, t.day) - timedelta(days = w))
 		end		= (datetime(t.year, t.month, t.day, 23, 59, 59) + timedelta(days = 7-w))
 		
@@ -41,43 +42,37 @@ class Engine:
 	def query_top(self, *params):
 		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
-		return self.select('''SELECT window_class, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
+		return self.select('''SELECT window_class, SUM(time) AS time, COUNT(id) AS switches
 			FROM timetracking
-			WHERE username = username {0}
-			GROUP BY username, window_class
+			WHERE username = 'karamfil' {0}
+			GROUP BY window_class
 			ORDER BY time DESC
 			LIMIT 10'''.format(where), *params)
-	
-	def get_top_all_time(self, username):	return self.query_top()
-	def get_top_week(self, username):		return self.query_top(*self._filter_week())
-	def get_top_today(self, username):		return self.query_top(*self._filter_today())
-	
 	
 	def query_top_title(self, *params):
 		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
-		return self.select('''SELECT window_class, window_title, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
+		return self.select('''SELECT window_class, window_title, SUM(time) AS time, COUNT(id) AS switches
 			FROM timetracking
-			WHERE username = username {0}
-			GROUP BY username, window_class, window_title
+			WHERE username = 'karamfil' {0}
+			GROUP BY window_class, window_title
 			ORDER BY time DESC
 			LIMIT 10'''.format(where), *params)
 	
-	def get_top_title_all_time(self, username):	return self.query_top_title()
-	def get_top_title_week(self, username):		return self.query_top_title(*self._filter_week())
-	def get_top_title_today(self, username):	return self.query_top_title(*self._filter_today())
-	
-	# def get_stats_
-	
-	# def get_stats_today(self):
-	# 	self.select('''SELECT window_class, window_title, ROUND(SUM(time)/60, 2) AS time, COUNT(id) AS switches
-	# 		FROM timetracking
-	# 		WHERE username = username AND `date` BETWEEN %s AND %s
-	# 		GROUP BY username, window_class, window_title
-	# 		ORDER BY time DESC
-	# 		LIMIT 10''', start, end)
+	def query_stats(self, *params):
+		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
-	# 	return {
-	# 		'time'		: ,
-	# 		'switches'	: ,
-	# 	}
+		return self.select('''SELECT SUM(time) AS time, COUNT(id) AS switches
+			FROM timetracking
+			WHERE username = 'karamfil' {0}
+			LIMIT 10'''.format(where), *params)[0]
+	
+	def get_top_all_time		(self, username): return self.query_top()
+	def get_top_week			(self, username): return self.query_top(*self._filter_week())
+	def get_top_today			(self, username): return self.query_top(*self._filter_today())
+	def get_top_title_all_time	(self, username): return self.query_top_title()
+	def get_top_title_week		(self, username): return self.query_top_title(*self._filter_week())
+	def get_top_title_today		(self, username): return self.query_top_title(*self._filter_today())
+	def get_stats_all_time		(self, username): return self.query_stats()
+	def get_stats_week			(self, username): return self.query_stats(*self._filter_week())
+	def get_stats_today			(self, username): return self.query_stats(*self._filter_today())

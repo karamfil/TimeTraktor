@@ -13,23 +13,30 @@
 
 <h1>TimeTraktor: {{name}}</h1>
 
-<div style="float: left; width: 27%; margin-right: 3%; clear: both;">
+<div style="float: left; width: 25%; margin-right: 5%; clear: both;">
 	<h2>Top Today</h2>
 	<table width="100%">
 		<tr>
-			<th></th>
+			<th>#</th>
 			<th>Program</th>
-			<th>Time (m)</th>
-			<th>Switches</th>
+			<th style="text-align: right;">Time</th>
+			<th style="text-align: right;">Switches</th>
 		</tr>
 		{% for i in top_today %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
-				<td>{{i.time}}</td>
-				<td>{{i.switches}}</td>
+				<td style="text-align: right;">{{i.time|hours}}</td>
+				<td style="text-align: right;">{{i.switches}}</td>
 			</tr>
 		{% endfor %}
+		
+		<tr>
+			<th></th>
+			<th>TOTAL</th>
+			<th style="text-align: right;">{{stats_today.time|hours}}</th>
+			<th style="text-align: right;">{{stats_today.switches}}</th>
+		</tr>
 	</table>
 </div>
 
@@ -37,41 +44,48 @@
 	<h2>Top Title Today</h2>
 	<table width="100%">
 		<tr>
-			<th></th>
+			<th>#</th>
 			<th>Program</th>
 			<th>Title</th>
-			<th>Time (m)</th>
-			<th>Switches</th>
+			<th style="text-align: right;">Time</th>
+			<th style="text-align: right;">Switches</th>
 		</tr>
 		{% for i in top_title_today %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
 				<td>{{i.window_title}}</td>
-				<td>{{i.time}}</td>
-				<td>{{i.switches}}</td>
+				<td style="text-align: right;">{{i.time|hours}}</td>
+				<td style="text-align: right;">{{i.switches}}</td>
 			</tr>
 		{% endfor %}
 	</table>
 </div>
 
-<div style="float: left; width: 27%; margin-right: 3%; clear: both;">
+<div style="float: left; width: 25%; margin-right: 5%; clear: both;">
 	<h2>Top Week</h2>
 	<table width="100%">
 		<tr>
-			<th></th>
+			<th>#</th>
 			<th>Program</th>
-			<th>Time (m)</th>
-			<th>Switches</th>
+			<th style="text-align: right;">Time</th>
+			<th style="text-align: right;">Switches</th>
 		</tr>
 		{% for i in top_week %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
-				<td>{{i.time}}</td>
-				<td>{{i.switches}}</td>
+				<td style="text-align: right;">{{i.time|hours}}</td>
+				<td style="text-align: right;">{{i.switches}}</td>
 			</tr>
 		{% endfor %}
+		
+		<tr>
+			<th></th>
+			<th>TOTAL</th>
+			<th style="text-align: right;">{{stats_week.time|hours}}</th>
+			<th style="text-align: right;">{{stats_week.switches}}</th>
+		</tr>
 	</table>
 </div>
 
@@ -79,41 +93,48 @@
 	<h2>Top Title Week</h2>
 	<table width="100%">
 		<tr>
-			<th></th>
+			<th>#</th>
 			<th>Program</th>
 			<th>Title</th>
-			<th>Time (m)</th>
-			<th>Switches</th>
+			<th style="text-align: right;">Time</th>
+			<th style="text-align: right;">Switches</th>
 		</tr>
 		{% for i in top_title_week %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
 				<td>{{i.window_title}}</td>
-				<td>{{i.time}}</td>
-				<td>{{i.switches}}</td>
+				<td style="text-align: right;">{{i.time|hours}}</td>
+				<td style="text-align: right;">{{i.switches}}</td>
 			</tr>
 		{% endfor %}
 	</table>
 </div>
 
-<div style="float: left; width: 27%; margin-right: 3%; clear: both;">
+<div style="float: left; width: 25%; margin-right: 5%; clear: both;">
 	<h2>Top All Time</h2>
 	<table width="100%">
 		<tr>
-			<th></th>
+			<th>#</th>
 			<th>Program</th>
-			<th>Time (m)</th>
-			<th>Switches</th>
+			<th style="text-align: right;">Time</th>
+			<th style="text-align: right;">Switches</th>
 		</tr>
 		{% for i in top %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
-				<td>{{i.time}}</td>
-				<td>{{i.switches}}</td>
+				<td style="text-align: right;">{{i.time|hours}}</td>
+				<td style="text-align: right;">{{i.switches}}</td>
 			</tr>
 		{% endfor %}
+		
+		<tr>
+			<th></th>
+			<th>TOTAL</th>
+			<th style="text-align: right;">{{stats.time|hours}}</th>
+			<th style="text-align: right;">{{stats.switches}}</th>
+		</tr>
 	</table>
 </div>
 
@@ -121,19 +142,19 @@
 	<h2>Top Title All Time</h2>
 	<table width="100%">
 		<tr>
-			<th></th>
+			<th>#</th>
 			<th>Program</th>
 			<th>Title</th>
-			<th>Time (m)</th>
-			<th>Switches</th>
+			<th style="text-align: right;">Time</th>
+			<th style="text-align: right;">Switches</th>
 		</tr>
 		{% for i in top_title %}
 			<tr>
 				<td>{{loop.index}}</td>
 				<td>{{i.window_class}}</td>
 				<td>{{i.window_title}}</td>
-				<td>{{i.time}}</td>
-				<td>{{i.switches}}</td>
+				<td style="text-align: right;">{{i.time|hours}}</td>
+				<td style="text-align: right;">{{i.switches}}</td>
 			</tr>
 		{% endfor %}
 	</table>
