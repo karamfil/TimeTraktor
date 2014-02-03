@@ -42,7 +42,7 @@ class Engine:
 	def query_top(self, *params):
 		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
-		return self.select('''SELECT window_class, SUM(time) AS time, COUNT(id) AS switches
+		return self.select('''SELECT window_class, SUM(`time`) AS `time`, COUNT(id) AS switches
 			FROM timetracking
 			WHERE username = 'karamfil' {0}
 			GROUP BY window_class
@@ -52,7 +52,7 @@ class Engine:
 	def query_top_title(self, *params):
 		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
-		return self.select('''SELECT window_class, window_title, SUM(time) AS time, COUNT(id) AS switches
+		return self.select('''SELECT window_class, window_title, SUM(`time`) AS `time`, COUNT(id) AS switches
 			FROM timetracking
 			WHERE username = 'karamfil' {0}
 			GROUP BY window_class, window_title
@@ -62,7 +62,7 @@ class Engine:
 	def query_stats(self, *params):
 		where = 'AND `date` BETWEEN %s AND %s' if params else ''
 		
-		return self.select('''SELECT SUM(time) AS time, COUNT(id) AS switches
+		return self.select('''SELECT SUM(`time`) AS `time`, COUNT(id) AS switches
 			FROM timetracking
 			WHERE username = 'karamfil' {0}
 			LIMIT 10'''.format(where), *params)[0]
