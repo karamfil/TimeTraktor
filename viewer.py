@@ -12,11 +12,8 @@ def hours(value, format='%H:%M / %d-%m-%Y'):
 	d = datetime(1,1,1) + timedelta(seconds = int(value))
 	r = '%02d:%02d' % (d.minute, d.second)
 	
-	if d.hour > 0:
-		r = '%02d:%s' % (d.hour, r)
-	
-	if d.day > 1:
-		r = '%d %s' % (d.day-1, r)
+	if d.hour > 0:	r = '%02d:%s' % (d.hour, r)
+	if d.day > 1:	r = '%d %s' % (d.day-1, r)
 	
 	return r
 
