@@ -13,7 +13,7 @@ def hours(value, format='%H:%M / %d-%m-%Y'):
 	r = '%02d:%02d' % (d.minute, d.second)
 	
 	if d.hour > 0:	r = '%02d:%s' % (d.hour, r)
-	if d.day > 1:	r = '%d %s' % (d.day-1, r)
+	if d.day > 1:	r = '%dd %s' % (d.day-1, r)
 	
 	return r
 

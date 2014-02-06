@@ -20,7 +20,13 @@ def get_window_id():
 	wid = None
 	
 	try:
-		wid = subprocess.check_output(['xprop', '-root', '_NET_ACTIVE_WINDOW']).strip().split()[-1]
+		xprop = subprocess.check_output(['xprop', '-root', '_NET_ACTIVE_WINDOW'])
+		wid = xprop.strip().split()[-1]
+		
+		if wid == '0x0':
+			# check why this is 0x0
+			print xprop
+		
 	except subprocess.CalledProcessError, e:
 		print e
 	
